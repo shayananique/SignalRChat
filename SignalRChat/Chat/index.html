@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>SignalR Chat Test</title>
+</head>
+<body>
+    <input id="msg" type="text" /> 
+    <input id="send" type="button" value="Send" />
+
+    <ul id="messages">
+
+    </ul>
+
+
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/jquery.signalR-1.0.0-rc2.js"></script>
+    <script>
+        $(function () {
+            var conn = $.connection("/chat");
+
+            conn.received(function (data) {
+                $("#messages").append("<li>" + data + "</li>");
+            });
+
+            conn.start().done(function () {
+                $("#send").click(function () {
+                    var msg = $("$msg").val();
+                    conn.send(msg);
+
+                });
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
